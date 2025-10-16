@@ -28,7 +28,7 @@ export function CreateJournal({
      *
      * Create a new Transaction instance from the @mysten/sui/transactions module.
      */
-
+    const tx = new Transaction();
     /**
      * Task 2: 
      * 
@@ -36,6 +36,10 @@ export function CreateJournal({
      * 
      * Make sure to use the title input from the user
      */
+    const journal = tx.moveCall({
+        target: `${journalPackageId}::journal::new_journal`,
+        arguments: [tx.pure.string(title)],
+      });
 
     /**
      * Task 3: 
@@ -44,6 +48,7 @@ export function CreateJournal({
      * 
      * Hint: use currentAccount.address to the user's address
      */
+    tx.transferObjects([journal], currentAccount.address);
 
     signAndExecute(
       {
